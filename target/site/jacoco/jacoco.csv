@@ -1,0 +1,4 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+healthtrack-web,com.healthtrack.model,Usuario,0,19,0,0,0,8,0,4,0,4
+healthtrack-web,com.healthtrack.controller,UsuarioController,0,30,0,0,0,7,0,3,0,3
+healthtrack-web,com.healthtrack,HealthTrackApplication,5,3,0,0,2,1,1,1,1,1

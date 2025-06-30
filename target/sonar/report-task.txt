@@ -1,0 +1,6 @@
+projectKey=healthtrack
+serverUrl=http://192.168.1.86:9000
+serverVersion=10.4.1.88267
+dashboardUrl=http://192.168.1.86:9000/dashboard?id=healthtrack
+ceTaskId=8dae3c97-48a2-4da4-8c19-80341f2a1493
+ceTaskUrl=http://192.168.1.86:9000/api/ce/task?id=8dae3c97-48a2-4da4-8c19-80341f2a1493
