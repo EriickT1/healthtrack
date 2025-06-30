@@ -14,7 +14,7 @@ public class UsuarioUITest {
 
     @BeforeAll
     public static void setUp() {
-        // Configuración automática para diferentes entornos
+        // Configuración para diferentes entornos
         String os = System.getProperty("os.name").toLowerCase();
         String driverPath;
         ChromeOptions options = new ChromeOptions();
@@ -26,10 +26,13 @@ public class UsuarioUITest {
             // Configuración para Linux (GitHub Actions)
             driverPath = "/usr/bin/chromedriver";
             options.setBinary("/usr/bin/chromium-browser");
-            options.addArguments("--headless");
+            options.addArguments("--headless=new"); // Nueva sintaxis para headless
             options.addArguments("--disable-gpu");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--remote-debugging-port=9222");
+            options.addArguments("--disable-extensions");
+            options.addArguments("--window-size=1280,1024");
         }
         
         System.setProperty("webdriver.chrome.driver", driverPath);
@@ -52,7 +55,7 @@ public class UsuarioUITest {
         inputPeso.sendKeys("80.5");
         inputPeso.submit();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         boolean contieneTexto = wait.until(ExpectedConditions.textToBePresentInElementLocated(
             By.tagName("body"), "80.5"));
         
