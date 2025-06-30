@@ -3,8 +3,8 @@ package com.healthtrack;
 import com.healthtrack.model.Usuario;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-public class UsuarioTest {
+//public
+class UsuarioTest {
     @Test
     void testActualizarPeso() {
         Usuario usuario = new Usuario("Erick", 70.0);

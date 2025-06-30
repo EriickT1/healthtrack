@@ -1,4 +1,4 @@
-name: Java CI con Maven
+name: Java CI con Maven y Selenium
 
 on: [push]
 
@@ -16,5 +16,29 @@ jobs:
         distribution: temurin
         java-version: '17'
 
+    - name: Instalar Chrome
+      uses: browser-actions/setup-chrome@v1
+      with:
+        # Versión estable más reciente de Chrome
+        chrome-version: 'latest' 
+
+    - name: Configurar ChromeDriver
+      run: |
+        # Descargar la versión compatible de ChromeDriver
+        CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d'.' -f1)
+        echo "Chrome version: $CHROME_VERSION"
+        wget https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION} -O chromedriver-version.txt
+        CHROMEDRIVER_VERSION=$(cat chromedriver-version.txt)
+        echo "Downloading ChromeDriver version $CHROMEDRIVER_VERSION"
+        wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip
+        unzip chromedriver_linux64.zip
+        sudo mv chromedriver /usr/local/bin/chromedriver
+        sudo chmod +x /usr/local/bin/chromedriver
+        chromedriver --version
+
     - name: Compilar y Testear
-      run: mvn clean test
+      run: |
+        # Configurar Chrome para modo headless
+        export DISPLAY=:99
+        /usr/bin/Xvfb :99 -screen 0 1280x1024x24 &
+        mvn clean test -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver
