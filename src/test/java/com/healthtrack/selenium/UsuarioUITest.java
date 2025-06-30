@@ -3,10 +3,10 @@ package com.healthtrack.selenium;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class UsuarioUITest {
 
@@ -14,9 +14,27 @@ public class UsuarioUITest {
 
     @BeforeAll
     public static void setUp() {
-        System.setProperty("webdriver.chrome.driver", "chromedriver.exe"); 
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        // Configuración automática para diferentes entornos
+        String os = System.getProperty("os.name").toLowerCase();
+        String driverPath;
+        ChromeOptions options = new ChromeOptions();
+        
+        if (os.contains("win")) {
+            // Configuración para Windows
+            driverPath = "chromedriver.exe";
+        } else {
+            // Configuración para Linux (GitHub Actions)
+            driverPath = "/usr/bin/chromedriver";
+            options.setBinary("/usr/bin/chromium-browser");
+            options.addArguments("--headless");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+        }
+        
+        System.setProperty("webdriver.chrome.driver", driverPath);
+        driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
 
     @Test
@@ -32,14 +50,13 @@ public class UsuarioUITest {
         WebElement inputPeso = driver.findElement(By.name("peso"));
         inputPeso.clear();
         inputPeso.sendKeys("80.5");
+        inputPeso.submit();
 
-        inputPeso.submit(); 
-
-        // Assertions.assertTrue(driver.getPageSource().contains("Usuario")); 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(
-        By.tagName("body"), "80.5"));
+        boolean contieneTexto = wait.until(ExpectedConditions.textToBePresentInElementLocated(
+            By.tagName("body"), "80.5"));
+        
+        Assertions.assertTrue(contieneTexto);
     }
 
     @AfterAll
