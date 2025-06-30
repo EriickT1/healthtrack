@@ -1,0 +1,3 @@
+com\healthtrack\HealthTrackApplication.class
+com\healthtrack\controller\UsuarioController.class
+com\healthtrack\model\Usuario.class

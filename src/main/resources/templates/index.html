@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthTrack</title>
+</head>
+<body>
+    <h1>Bienvenido, <span th:text="${usuario.nombre}">Usuario</span></h1>
+    <p>Peso actual: <span id="pesoActual" th:text="${usuario.peso}">0.0</span> kg</p>
+    <form action="/actualizar" method="post">
+        <label for="peso">Nuevo peso:</label>
+        <input type="number" step="0.1" name="peso" id="peso" required>
+        <button type="submit" id="actualizar">Actualizar</button>
+    </form>
+</body>
+</html>
